@@ -6,12 +6,12 @@
 
     <import resource="classpath*:rabbitMQ.xml" />
 
-    <!-- 扫描指定package下所有带有如 @Controller,@Service,@Resource 并把所注释的注册为Spring Beans -->
+    <!--1. 开启spring注解扫描==》扫描指定package下所有带有如 @Controller,@Service,@Resource 并把所注释的注册为Spring Beans -->
     <context:component-scan base-package="com.pupu.*" />
 
-    <!-- 激活annotation功能 -->
+    <!--2. 激活annotation功能 -->
     <context:annotation-config />
 
-    <!-- 激活annotation功能 -->
+    <!--3. 激活依赖注入功能 -->
     <context:spring-configured />
 </beans>
