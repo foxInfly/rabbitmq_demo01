@@ -3,58 +3,59 @@ package com.pupu.demo01_simple;
 import com.rabbitmq.client.*;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 /**
- * @Author: qingshan
- * @Description: 咕泡学院，只为更好的你
- * 消息消费者
- */
+ * 消费者
+ *
+ * @author lp
+ * @since 2021/2/1 11:31
+ **/
 public class MyConsumer {
     private final static String EXCHANGE_NAME = "SIMPLE_EXCHANGE";
     private final static String QUEUE_NAME = "SIMPLE_QUEUE";
 
     public static void main(String[] args) throws Exception {
-        ConnectionFactory factory = new ConnectionFactory();
-        // 连接IP
-        factory.setHost("127.0.0.1");
-        // 默认监听端口
-        factory.setPort(5672);
-        // 虚拟机
-        factory.setVirtualHost("/");
 
-        // 设置访问的用户
+        // 1. 通过ip、port、vhost、username、password构建连接工厂
+        ConnectionFactory factory = new ConnectionFactory();
+        factory.setHost("114.55.95.30");
+        factory.setPort(5673);
+        factory.setVirtualHost("/");
         factory.setUsername("guest");
         factory.setPassword("guest");
-        // 建立连接
+
+        // 2. 建立连接
         Connection conn = factory.newConnection();
-        // 创建消息通道
+
+        // 3. 创建消息通道
         Channel channel = conn.createChannel();
 
-        // 声明交换机
+        // 4. 声明一个direct交换机
         // String exchange, String type, boolean durable, boolean autoDelete, Map<String, Object> arguments
-        channel.exchangeDeclare(EXCHANGE_NAME,"direct",false, false, null);
+        channel.exchangeDeclare(EXCHANGE_NAME, "direct", false, false, null);
 
-        // 声明队列
+        // 5. 声明队列
         // String queue, boolean durable, boolean exclusive, boolean autoDelete, Map<String, Object> arguments
         channel.queueDeclare(QUEUE_NAME, false, false, false, null);
+
+        // 6. 将队列和交换机绑定
+        channel.queueBind(QUEUE_NAME, EXCHANGE_NAME, "gupao.best");
+
         System.out.println(" Waiting for message....");
 
-        // 绑定队列和交换机
-        channel.queueBind(QUEUE_NAME,EXCHANGE_NAME,"gupao.best");
-
-        // 创建消费者
+        // 7. 创建消费者
         Consumer consumer = new DefaultConsumer(channel) {
             @Override
-            public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties,
-                                       byte[] body) throws IOException {
-                String msg = new String(body, "UTF-8");
+            public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body) {
+                String msg = new String(body, StandardCharsets.UTF_8);
                 System.out.println("Received message : '" + msg + "'");
-                System.out.println("consumerTag : " + consumerTag );
-                System.out.println("deliveryTag : " + envelope.getDeliveryTag() );
+                System.out.println("consumerTag : " + consumerTag);
+                System.out.println("deliveryTag : " + envelope.getDeliveryTag()+"\n");
             }
         };
 
-        // 开始获取消息
+        // 8. 开始从queue获取消息
         // String queue, boolean autoAck, Consumer callback
         channel.basicConsume(QUEUE_NAME, true, consumer);
     }

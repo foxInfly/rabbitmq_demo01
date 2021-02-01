@@ -5,33 +5,33 @@ import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
 
 /**
- * @Author: qingshan
- * @Description: 咕泡学院，只为更好的你
- * 消息生产者
- */
+ * 生产者
+ *
+ * @author lp
+ * @since 2021/2/1 11:43
+ **/
 public class MyProducer {
     private final static String EXCHANGE_NAME = "SIMPLE_EXCHANGE";
 
     public static void main(String[] args) throws Exception {
+
+        // 1. 通过ip、port、vhost、username、password构建连接工厂
         ConnectionFactory factory = new ConnectionFactory();
-        // 连接IP
-        factory.setHost("127.0.0.1");
-        // 连接端口
-        factory.setPort(5672);
-        // 虚拟机
+        factory.setHost("114.55.95.30");
+        factory.setPort(5673);
         factory.setVirtualHost("/");
-        // 用户
         factory.setUsername("guest");
         factory.setPassword("guest");
 
-        // 建立连接
+        // 2. 建立连接
         Connection conn = factory.newConnection();
-        // 创建消息通道
+        // 3. 创建消息通道
         Channel channel = conn.createChannel();
 
-        // 发送消息
-        String msg = "Hello world, Rabbit MQ";
+        // 4. 发送消息
+        String msg = "Hello world, I'm Rabbit MQ";
 
+        // 5. begin publis message
         // String exchange, String routingKey, BasicProperties props, byte[] body
         channel.basicPublish(EXCHANGE_NAME, "gupao.best", null, msg.getBytes());
 
