@@ -9,7 +9,7 @@ import java.nio.charset.StandardCharsets;
 /**
  * 消费者，测试消费端限流，先启动
  * @author lp
- * @since  2021/2/1 23:09 
+ * @since  2021/2/1 23:09
  */
 public class LimitConsumer {
     private final static String QUEUE_NAME = "TEST_LIMIT_QUEUE";
