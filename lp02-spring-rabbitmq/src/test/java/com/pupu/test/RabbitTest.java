@@ -12,6 +12,7 @@ public class RabbitTest {
 
     @Test
     public void sendMessage() {
+        //1.加载applicationContext.xml，启动spring容器
         ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
         MessageProducer messageProducer = (MessageProducer) context.getBean("messageProducer");
         int k = 100;

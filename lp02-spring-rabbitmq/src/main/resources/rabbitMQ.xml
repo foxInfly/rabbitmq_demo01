@@ -6,13 +6,13 @@
      http://www.springframework.org/schema/rabbit
      http://www.springframework.org/schema/rabbit/spring-rabbit-1.2.xsd">
 
-    <!--###############1. 初始化连接###############-->
+    <!--******************1. 初始化连接******************-->
     <!--1.1 配置connection-factory，指定连接rabbit server参数 -->
     <rabbit:connection-factory id="connectionFactory" virtual-host="/" username="guest" password="guest" host="114.55.95.30" port="5673" />
     <!--1.2 建立连接，获取连接对象；通过指定下面的admin信息，当前producer中的exchange和queue会在rabbitmq服务器上自动生成 -->
     <rabbit:admin id="connectAdmin" connection-factory="connectionFactory" />
 
-    <!--###############2. 初始化用于生产者的queue和exchange###############-->
+    <!--******************2. 初始化用于生产者的queue和exchange******************-->
     <!--2.1 定义queue -->
     <rabbit:queue name="MY_FIRST_QUEUE" durable="true" auto-delete="false" exclusive="false" declared-by="connectAdmin" />
     <!--2.2 定义direct exchange，绑定MY_FIRST_QUEUE -->
@@ -25,8 +25,8 @@
     <!--2.3 定义rabbit template用于数据的接收和发送 -->
     <rabbit:template id="amqpTemplate" connection-factory="connectionFactory" exchange="MY_DIRECT_EXCHANGE" />
 
-    <!--###############3. 消费者###############-->
-    <!--3.1 消息接收者1 -->
+    <!--******************3. 消费者******************-->
+    <!--≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈3.1 消息接收者1 ≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈-->
     <bean id="messageReceiver" class="com.pupu.consumer.FirstConsumer"/>
     <!--3.1.1 queue listener 观察 监听模式 当有消息到达时会通知监听在对应的队列上的监听对象 -->
     <rabbit:listener-container connection-factory="connectionFactory">
@@ -41,7 +41,7 @@
         </rabbit:bindings>
     </rabbit:direct-exchange>
 
-    <!--3.2 消息接收者2 -->
+    <!--≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈3.2 消息接收者2 ≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈-->
     <bean id="receiverSecond" class="com.pupu.consumer.SecondConsumer"/>
     <!--3.2.1 queue litener 观察 监听模式 当有消息到达时会通知监听在对应的队列上的监听对象 -->
     <rabbit:listener-container connection-factory="connectionFactory">
@@ -55,21 +55,17 @@
             <rabbit:binding queue="MY_THIRD_QUEUE" pattern="#.Third.#"/>
         </rabbit:bindings>
     </rabbit:topic-exchange>
-
-    <!--定义rabbit template用于数据的接收和发送 -->
+    <!--3.2.3 定义rabbit template用于数据的接收和发送 -->
     <rabbit:template id="amqpTemplate2" connection-factory="connectionFactory" exchange="MY_TOPIC_EXCHANGE" />
 
-    <!-- 3.3 消息接收者3 -->
+    <!--≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈3.3 消息接收者3 ≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈-->
     <bean id="receiverThird" class="com.pupu.consumer.ThirdConsumer"/>
-
     <!-- 3.3.1 queue litener 观察 监听模式 当有消息到达时会通知监听在对应的队列上的监听对象 -->
     <rabbit:listener-container connection-factory="connectionFactory">
         <rabbit:listener queues="MY_THIRD_QUEUE" ref="receiverThird" />
     </rabbit:listener-container>
-
     <!-- 3.3.2 定义queue -->
     <rabbit:queue name="MY_FOURTH_QUEUE" durable="true" auto-delete="false" exclusive="false" declared-by="connectAdmin" />
-
     <!-- 3.3.3 定义fanout exchange，绑定MY_FIRST_QUEUE 和 MY_FOURTH_QUEUE -->
     <rabbit:fanout-exchange name="MY_FANOUT_EXCHANGE" auto-delete="false" durable="true" declared-by="connectAdmin" >
         <rabbit:bindings>
@@ -78,9 +74,8 @@
         </rabbit:bindings>
     </rabbit:fanout-exchange>
 
-    <!-- 3.4 消息接收者4 -->
+    <!--≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈3.4 消息接收者4≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈-->
     <bean id="receiverFourth" class="com.pupu.consumer.FourthConsumer"/>
-
     <!-- 2.4.1 queue litener 观察 监听模式 当有消息到达时会通知监听在对应的队列上的监听对象 -->
     <rabbit:listener-container connection-factory="connectionFactory">
         <rabbit:listener queues="MY_FOURTH_QUEUE" ref="receiverFourth" />

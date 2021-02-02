@@ -3,9 +3,10 @@ package com.pupu.producer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.core.AmqpTemplate;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
 
 
 /**
@@ -17,21 +18,18 @@ import org.springframework.stereotype.Service;
 public class MessageProducer {
     private Logger logger = LoggerFactory.getLogger(MessageProducer.class);
 
-    @Autowired
-    @Qualifier("amqpTemplate")
+    @Resource(name = "amqpTemplate")
     private AmqpTemplate amqpTemplate;
 
-    @Autowired
-    @Qualifier("amqpTemplate2")
+    @Resource(name = "amqpTemplate2")
     private AmqpTemplate amqpTemplate2;
 
     /**
      * 演示三种交换机的使用
      *
-     * @param message
+     * @param message message
      */
     public void sendMessage(Object message) {
-
 
         // amqpTemplate 默认交换机 MY_DIRECT_EXCHANGE
         // amqpTemplate2 默认交换机 MY_TOPIC_EXCHANGE
