@@ -1,4 +1,4 @@
-package com.pupu.dlx;
+package com.pupu.demo02_dlx;
 
 import com.pupu.util.ResourceUtil;
 import com.rabbitmq.client.AMQP;
@@ -6,8 +6,8 @@ import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
 
-/**
- * 生产者，通过TTL测试死信队列
+/** Dead Letter Queue死信队列
+ *  生产者，通过TTL测试死信队列
  * @author lp
  * @since  2021/2/1 23:04
  */
