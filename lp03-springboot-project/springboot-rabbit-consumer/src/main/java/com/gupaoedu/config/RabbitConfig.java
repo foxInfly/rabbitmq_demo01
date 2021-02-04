@@ -99,7 +99,8 @@ public class RabbitConfig {
     /**
      * 在消费端转换JSON消息
      * 监听类都要加上containerFactory属性
-     * @param connectionFactory connectionFactory
+     * @param connectionFactory connectionFactory rabbit连接工厂
+     * @return rabbitListenerContainerFactory
      */
     @Bean
     public SimpleRabbitListenerContainerFactory rabbitListenerContainerFactory(ConnectionFactory connectionFactory) {

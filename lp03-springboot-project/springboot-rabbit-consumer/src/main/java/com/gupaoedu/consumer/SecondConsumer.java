@@ -14,7 +14,7 @@ import java.io.IOException;
  * @since  2021/2/4 22:27
  */
 @Component
-@PropertySource("classpath:gupaomq.properties")
+@PropertySource("classpath:gupaomq.properties")//加载指定配置文件
 @RabbitListener(queues = "${com.gupaoedu.secondqueue}", containerFactory="rabbitListenerContainerFactory")
 public class SecondConsumer {
     @RabbitHandler
