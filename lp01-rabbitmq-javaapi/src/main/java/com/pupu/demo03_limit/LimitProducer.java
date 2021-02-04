@@ -1,4 +1,4 @@
-package com.pupu.limit;
+package com.pupu.demo03_limit;
 
 import com.pupu.util.ResourceUtil;
 import com.rabbitmq.client.Channel;
@@ -23,7 +23,7 @@ public class LimitProducer {
         // 创建消息通道
         Channel channel = conn.createChannel();
 
-        String msg = "a limit message ";
+        String msg = "a demo03_limit message ";
         // 声明队列（默认交换机AMQP default，Direct）
         // String queue, boolean durable, boolean exclusive, boolean autoDelete, Map<String, Object> arguments
         channel.queueDeclare(QUEUE_NAME, false, false, false, null);
