@@ -15,9 +15,9 @@
         SELECT id, name, address, accountNo, accountName, state
         FROM merchant
         WHERE 1 = 1
-          AND NAME LIKE concat(concat('%', #{0}), '%')
+          AND NAME LIKE concat(concat('%', #{name}), '%')
         order by id
-        limit #{1},#{2}
+        limit #{page},#{limit}
     </select>
 
 
@@ -49,8 +49,8 @@
         SET name        = #{name},
             address     = #{address},
             accountNo   = #{accountNo},
-            accountName = #{accountName},
-            state       = #{state}
+            accountName = #{accountName}
+
         WHERE id = #{id}
     </update>
 

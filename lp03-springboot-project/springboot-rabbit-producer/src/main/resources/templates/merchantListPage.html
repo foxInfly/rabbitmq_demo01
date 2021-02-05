@@ -42,7 +42,7 @@
                 ,id: 'toAdd' //防止重复弹出
                 ,content: "/toMerchant"
                 //,btn: ['确认', '取消']
-                ,btnAlign: 'c' //按钮居中
+                // ,btnAlign: 'c' //按钮居中
                 ,shade: 0.1 //不显示遮罩
                 ,yes: function(){
                     layer.closeAll();
@@ -118,7 +118,7 @@
                             data:{"id":data.id},
                             dataType: "json",
                             success: function(data){
-                                if(data==1){
+                                if(data===1){
                                     layer.msg("删除商户成功", {icon: 6});
                                     /*重新加载数据表格*/
                                     var name = $('#name');
@@ -142,7 +142,7 @@
                             data:{"id":data.id},
                             dataType: "json",
                             success: function(data){
-                                if(data=="1"){
+                                if(data===1){
                                     layer.msg("激活商户成功", {icon: 6});
                                     /*重新加载数据表格*/
                                     var id = $('#id');
@@ -167,7 +167,7 @@
                             data:{"id":data.id},
                             dataType: "json",
                             success: function(data){
-                                if(data==1){
+                                if(data===1){
                                     layer.msg("关闭商户成功", {icon: 6});
                                     /*重新加载数据表格*/
                                     var id = $('#id');

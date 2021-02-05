@@ -44,10 +44,11 @@ public class MerchantServiceImpl implements MerchantService {
     public int add(Merchant merchant) {
         int k = merchantMapper.add(merchant);
         System.out.println("aaa : "+merchant.getId());
+
         JSONObject title = new JSONObject();
-        String jsonBody = JSONObject.toJSONString(merchant);
         title.put("type","add");
         title.put("desc","新增商户");
+        String jsonBody = JSONObject.toJSONString(merchant);
         title.put("content",jsonBody);
         gupaoTemplate.convertAndSend(topicExchange,topicRoutingKey, title.toJSONString());
 

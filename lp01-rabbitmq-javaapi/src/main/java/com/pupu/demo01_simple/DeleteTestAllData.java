@@ -21,7 +21,7 @@ public class DeleteTestAllData {
         // 1. 通过ip、port、vhost、username、password构建连接工厂
         ConnectionFactory factory = new ConnectionFactory();
         factory.setHost("114.55.95.30");
-        factory.setPort(5672);
+        factory.setPort(5673);
         factory.setVirtualHost("/");
         factory.setUsername("guest");
         factory.setPassword("guest");
