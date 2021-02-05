@@ -21,10 +21,8 @@ public class MerchantServiceImpl implements MerchantService {
 
     @Value("${com.gupaoedu.topicexchange}")
     private String topicExchange;
-
     @Value("${com.gupaoedu.topicroutingkey1}")
     private String topicRoutingKey;
-
     @Resource
     private MerchantMapper merchantMapper;
 

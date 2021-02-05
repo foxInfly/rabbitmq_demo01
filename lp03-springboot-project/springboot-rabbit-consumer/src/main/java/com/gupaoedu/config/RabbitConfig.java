@@ -10,35 +10,32 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 
-/**
+/** rabbit config
  * @author lp
  * @since  2021/2/4 22:26
  */
 @Configuration
-@PropertySource("classpath:gupaomq.properties")
+@PropertySource("classpath:gupaomq.properties")//加载指定配置文件
 public class RabbitConfig {
+    //1. Queue
     @Value("${com.gupaoedu.firstqueue}")
     private String firstQueue;
-
     @Value("${com.gupaoedu.secondqueue}")
     private String secondQueue;
-
     @Value("${com.gupaoedu.thirdqueue}")
     private String thirdQueue;
-
     @Value("${com.gupaoedu.fourthqueue}")
     private String fourthQueue;
 
+    //2. exchange
     @Value("${com.gupaoedu.directexchange}")
     private String directExchange;
-
     @Value("${com.gupaoedu.topicexchange}")
     private String topicExchange;
-
     @Value("${com.gupaoedu.fanoutexchange}")
     private String fanoutExchange;
 
-    // 创建四个队列
+    //3. 创建四个队列
     @Bean("vipFirstQueue")
     public Queue getFirstQueue(){
         return new Queue(firstQueue);
@@ -59,7 +56,7 @@ public class RabbitConfig {
         return  new Queue(fourthQueue);
     }
 
-    // 创建三个交换机
+    //4. 创建三个交换机
     @Bean("vipDirectExchange")
     public DirectExchange getDirectExchange(){
         return new DirectExchange(directExchange);
@@ -75,7 +72,7 @@ public class RabbitConfig {
         return new FanoutExchange(fanoutExchange);
     }
 
-    // 定义四个绑定关系
+    //5. 定义四个绑定关系
     @Bean
     public Binding bindFirst(@Qualifier("vipFirstQueue") Queue queue, @Qualifier("vipDirectExchange") DirectExchange exchange){
         return BindingBuilder.bind(queue).to(exchange).with("gupao.best");
@@ -99,16 +96,16 @@ public class RabbitConfig {
     /**
      * 在消费端转换JSON消息
      * 监听类都要加上containerFactory属性
-     * @param connectionFactory connectionFactory rabbit连接工厂
+     * @param connectionFactory connectionFactory rabbit连接工厂,由springboot创建注入的
      * @return rabbitListenerContainerFactory
      */
     @Bean
     public SimpleRabbitListenerContainerFactory rabbitListenerContainerFactory(ConnectionFactory connectionFactory) {
         SimpleRabbitListenerContainerFactory factory = new SimpleRabbitListenerContainerFactory();
         factory.setConnectionFactory(connectionFactory);
-        factory.setMessageConverter(new Jackson2JsonMessageConverter());
-        factory.setAcknowledgeMode(AcknowledgeMode.MANUAL);
-        factory.setAutoStartup(true);
+        factory.setMessageConverter(new Jackson2JsonMessageConverter());//序列化方式，用于序列化
+        factory.setAcknowledgeMode(AcknowledgeMode.MANUAL);//设置手动应答
+        factory.setAutoStartup(true);//设置自启动
         return factory;
     }
 }

@@ -1,13 +1,16 @@
 package com.gupaoedu.entity;
 
+import com.gupaoedu.util.Constant;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 
 /**
+ * 商户
+ *
  * @author lp
- * @since  2021/2/4 22:31
+ * @since 2021/2/4 22:31
  */
 @Data
 @Accessors(chain = true)
@@ -30,13 +33,13 @@ public class Merchant implements Serializable {
     }
 
     public String getStateStr() {
-        if(null == state){
+        if (null == state) {
             return "";
-        }else if("1".equals(state.toString())){
+        } else if (Constant.MERCHANT_STATE.ACITVE.equals(state)) {
             return "激活";
-        }else if ("0".equals(state.toString())){
+        } else if (Constant.MERCHANT_STATE.CLOSE.equals(state)) {
             return "关闭";
-        }else{
+        } else {
             return "未知";
         }
     }

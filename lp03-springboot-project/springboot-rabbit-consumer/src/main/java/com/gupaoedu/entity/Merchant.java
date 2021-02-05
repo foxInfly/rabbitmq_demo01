@@ -6,6 +6,8 @@ import lombok.experimental.Accessors;
 import java.io.Serializable;
 
 /**
+ * 商户（人）
+ *
  * @author lp
  * @since 2021/2/4 22:24
  */

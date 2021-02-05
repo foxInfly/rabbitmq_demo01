@@ -6,13 +6,17 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
 /**
+ * fourth consumer config
+ *
  * @author lp
- * @since  2021/2/4 22:26
+ * @since 2021/2/4 22:26
  */
 @Component
 @PropertySource("classpath:gupaomq.properties")
-@RabbitListener(queues = "${com.gupaoedu.fourthqueue}", containerFactory="rabbitListenerContainerFactory")
+@RabbitListener(queues = "${com.gupaoedu.fourthqueue}", containerFactory = "rabbitListenerContainerFactory")
 public class FourthConsumer {
+
+
     @RabbitHandler
     public void process(String message) {
 
