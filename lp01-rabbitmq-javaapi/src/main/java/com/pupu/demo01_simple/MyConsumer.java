@@ -35,7 +35,13 @@ public class MyConsumer {
         channel.exchangeDeclare(EXCHANGE_NAME, "direct", false, false, null);
 
         // 5. 声明队列
-        // String queue, boolean durable, boolean exclusive, boolean autoDelete, Map<String, Object> arguments
+        // String queue,
+        // boolean durable，没有持久化的队列，保存在内存中，服务重启后队列和消息都会消失（钱和人一起没了)),
+        // boolean exclusive,exclusive:  排他性队列的特点是:
+        //                                           1) 只对首次声明它的连接(Connection)可见
+        //                                           2）会在其连接断开的时候自动删除。
+        // boolean autoDelete,（autoDelete:没有消费者连接的时候，自动删除。）
+        // Map<String, Object> arguments
         channel.queueDeclare(QUEUE_NAME, false, false, false, null);
 
         // 6. 将队列和交换机绑定

@@ -38,7 +38,7 @@ public class TTLProducer {
         AMQP.BasicProperties properties = new AMQP.BasicProperties.Builder()
                 .deliveryMode(2) // 持久化消息
                 .contentEncoding("UTF-8")
-                .expiration("10000") // TTL
+                .expiration("10000") // TTL  过期时间
                 .build();
 
         // 此处两种方式设置消息过期时间的方式都使用了，将以较小的数值为准
