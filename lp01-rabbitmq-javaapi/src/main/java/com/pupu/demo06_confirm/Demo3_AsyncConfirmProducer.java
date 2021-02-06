@@ -1,4 +1,4 @@
-package com.pupu.confirm;
+package com.pupu.demo06_confirm;
 
 import com.pupu.util.ResourceUtil;
 import com.rabbitmq.client.Channel;
@@ -17,26 +17,25 @@ import java.util.TreeSet;
  * @author lp
  * @since 2021/2/1 17:39
  **/
-public class AsyncConfirmProducer {
+public class Demo3_AsyncConfirmProducer {
     private final static String QUEUE_NAME = "ORIGIN_QUEUE";
 
     public static void main(String[] args) throws Exception {
 
-        // 1. 根据uri创建连接工厂
+        //1. 根据uri创建连接工厂,连接，获取通道
         ConnectionFactory factory = new ConnectionFactory();
         factory.setUri(ResourceUtil.getKey("rabbitmq.uri"));
-
-        // 2.建立连接
         Connection conn = factory.newConnection();
-        // 3. 创建消息通道
         Channel channel = conn.createChannel();
 
+        //2. 声明消息内容
         String msg = "Hello world, Rabbit MQ, Async Confirm";
-        // 4. 声明队列（默认交换机AMQP default，Direct）
+
+        //3. 声明队列（默认交换机AMQP default，Direct）
         // String queue, boolean durable, boolean exclusive, boolean autoDelete, Map<String, Object> arguments
         channel.queueDeclare(QUEUE_NAME, false, false, false, null);
 
-        // 5. 用来维护未确认消息的deliveryTag
+        //4. 用来维护未确认消息的deliveryTag
         final SortedSet<Long> confirmSet = Collections.synchronizedSortedSet(new TreeSet<>());
 
         // 这里不会打印所有响应的ACK；ACK可能有多个，有可能一次确认多条，也有可能一次确认一条

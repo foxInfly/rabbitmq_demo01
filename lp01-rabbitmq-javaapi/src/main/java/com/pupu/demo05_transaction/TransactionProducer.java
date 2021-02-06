@@ -1,4 +1,4 @@
-package com.pupu.transaction;
+package com.pupu.demo05_transaction;
 
 import com.pupu.util.ResourceUtil;
 import com.rabbitmq.client.Channel;

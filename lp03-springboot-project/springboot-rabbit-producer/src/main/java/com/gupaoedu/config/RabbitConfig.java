@@ -1,6 +1,7 @@
 package com.gupaoedu.config;
 
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
+import org.springframework.amqp.rabbit.connection.CorrelationData;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.context.annotation.Bean;
@@ -24,6 +25,14 @@ public class RabbitConfig {
         final RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory);
         rabbitTemplate.setMessageConverter(new Jackson2JsonMessageConverter());
 //        rabbitTemplate.setChannelTransacted(true);//开启事务
+        //开启异步确认模式
+        rabbitTemplate.setConfirmCallback((correlationData, ack, cause) -> {
+            if (!ack) {
+                System.out.println("发送消息失败: " + cause);
+                throw new RuntimeException("发送异常:" + cause);
+
+            }
+        });
         return rabbitTemplate;
     }
 }
