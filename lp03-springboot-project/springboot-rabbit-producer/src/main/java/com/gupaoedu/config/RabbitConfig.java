@@ -1,5 +1,6 @@
 package com.gupaoedu.config;
 
+import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.connection.CorrelationData;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -30,6 +31,18 @@ public class RabbitConfig {
             if (!ack) {
                 System.out.println("发送消息失败: " + cause);
                 throw new RuntimeException("发送异常:" + cause);
+
+            }
+        });
+        //开启回发给生产者
+        rabbitTemplate.setReturnCallback(new RabbitTemplate.ReturnCallback() {
+            @Override
+            public void returnedMessage(Message message, int replyCode, String replyText, String exchange, String routingKey) {
+                System.out.println("回发的消息:");
+                System.out.println("replyCode: "+replyCode);
+                System.out.println("replyText: "+replyText);
+                System.out.println("exchange: " +exchange);
+                System.out.println("routingKey: "+routingKey );
 
             }
         });
