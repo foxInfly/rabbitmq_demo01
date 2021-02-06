@@ -23,6 +23,7 @@ public class RabbitConfig {
     public RabbitTemplate gupaoTemplate(final ConnectionFactory connectionFactory) {
         final RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory);
         rabbitTemplate.setMessageConverter(new Jackson2JsonMessageConverter());
+//        rabbitTemplate.setChannelTransacted(true);//开启事务
         return rabbitTemplate;
     }
 }
