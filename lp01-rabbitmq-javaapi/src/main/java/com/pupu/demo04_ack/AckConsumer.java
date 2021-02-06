@@ -1,4 +1,4 @@
-package com.pupu.ack;
+package com.pupu.demo04_ack;
 
 import com.pupu.util.ResourceUtil;
 import com.rabbitmq.client.*;
@@ -16,21 +16,18 @@ public class AckConsumer {
     private final static String QUEUE_NAME = "TEST_ACK_QUEUE";
 
     public static void main(String[] args) throws Exception {
-        // 1. 根据uri创建连接工厂
+        // 1. 根据uri创建连接工厂,连接，获取通道
         ConnectionFactory factory = new ConnectionFactory();
         factory.setUri(ResourceUtil.getKey("rabbitmq.uri"));
-
-        // 2. 建立连接
         Connection conn = factory.newConnection();
-        // 3. 创建消息通道
         final Channel channel = conn.createChannel();
 
-        // 4. 声明队列（默认交换机AMQP default，Direct）
+        // 2. 声明队列（默认交换机AMQP default，Direct）
         // String queue, boolean durable, boolean exclusive, boolean autoDelete, Map<String, Object> arguments
         channel.queueDeclare(QUEUE_NAME, false, false, false, null);
         System.out.println(" Waiting for message....");
 
-        // 5. 创建消费者，并接收消息
+        // 3. 创建消费者，并接收消息
         Consumer consumer = new DefaultConsumer(channel) {
             @Override
             public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body) throws IOException {
@@ -55,7 +52,7 @@ public class AckConsumer {
             }
         };
 
-        // 6. 开始获取消息，注意这里开启了手工应答
+        // 4. 开始获取消息，注意这里开启了手工应答
         // String queue, boolean autoAck, Consumer callback
         channel.basicConsume(QUEUE_NAME, false, consumer);
     }
